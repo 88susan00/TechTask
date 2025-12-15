@@ -1,0 +1,24 @@
+replicaCount: 1
+
+image:
+  repository: andriiuni/spam2000
+  tag: "1.1394.355"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: spam2000.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources: {}
+

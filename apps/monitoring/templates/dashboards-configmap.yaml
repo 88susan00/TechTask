@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  labels:
+    grafana_dashboard: "1"
+data:
+  cluster.json: |
+    {{ .Files.Get "dashboards/cluster.json" | nindent 4 }}
+  spam2000.json: |
+    {{ .Files.Get "dashboards/spam2000.json" | nindent 4 }}

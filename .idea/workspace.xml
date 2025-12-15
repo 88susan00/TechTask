@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e8bb5d12-2cb5-41de-be6a-c083f3cc77a0" name="Changes" comment="GeneralChange3" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;88susan00&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/88susan00/TestRepo&quot;,
+    &quot;accountId&quot;: &quot;d258c621-2ae1-4614-898b-8a8f47598900&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="36pOCjx1E2a2Lp1pIEHnqlLlA80" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHELLCHECK.PATH": "/Users/michaelkiselyov/Library/Application Support/JetBrains/IntelliJIdea2025.3/plugins/Shell Script/shellcheck",
+    "Shell Script.apply-apps.sh.executor": "Run",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/michaelkiselyov/TestRepo/bootstrap",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/bootstrap" />
+      <recent name="$PROJECT_DIR$/argocd" />
+      <recent name="$PROJECT_DIR$/apps/spam2000" />
+      <recent name="$PROJECT_DIR$/apps/spam2000/templates" />
+      <recent name="$PROJECT_DIR$/apps/monitoring" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/bootstrap" />
+      <recent name="$PROJECT_DIR$/apps/monitoring" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
+        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28294.334" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e8bb5d12-2cb5-41de-be6a-c083f3cc77a0" name="Changes" comment="" />
+      <created>1765699920583</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765699920583</updated>
+      <workItem from="1765699921669" duration="13197000" />
+      <workItem from="1765734979873" duration="14577000" />
+    </task>
+    <task id="LOCAL-00001" summary="Changes3">
+      <option name="closed" value="true" />
+      <created>1765711773104</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1765711773105</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Changes4">
+      <option name="closed" value="true" />
+      <created>1765712079432</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1765712079432</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Changes4">
+      <option name="closed" value="true" />
+      <created>1765712350154</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1765712350154</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Changes5">
+      <option name="closed" value="true" />
+      <created>1765712958667</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1765712958667</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Changes6">
+      <option name="closed" value="true" />
+      <created>1765713335093</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1765713335093</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Changes7">
+      <option name="closed" value="true" />
+      <created>1765713696512</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1765713696512</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Changes7">
+      <option name="closed" value="true" />
+      <created>1765715681435</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1765715681435</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Changes7">
+      <option name="closed" value="true" />
+      <created>1765721400473</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1765721400473</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Changes9">
+      <option name="closed" value="true" />
+      <created>1765721604616</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1765721604616</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Changes10">
+      <option name="closed" value="true" />
+      <created>1765722413015</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1765722413015</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Changes11">
+      <option name="closed" value="true" />
+      <created>1765722946432</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1765722946432</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Add Grafana VictoriaMetrics datasource via provisioning">
+      <option name="closed" value="true" />
+      <created>1765723655766</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1765723655766</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Add Grafana VictoriaMetrics datasource via provisioning">
+      <option name="closed" value="true" />
+      <created>1765724276300</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1765724276300</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Changes12">
+      <option name="closed" value="true" />
+      <created>1765724678451</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1765724678451</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Changes14">
+      <option name="closed" value="true" />
+      <created>1765744431144</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1765744431145</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Changes14">
+      <option name="closed" value="true" />
+      <created>1765746517078</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1765746517078</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Changes15">
+      <option name="closed" value="true" />
+      <created>1765746809914</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1765746809914</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Changes15">
+      <option name="closed" value="true" />
+      <created>1765747237252</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1765747237252</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Changes16">
+      <option name="closed" value="true" />
+      <created>1765747619995</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1765747619996</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Changes17">
+      <option name="closed" value="true" />
+      <created>1765747774417</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1765747774417</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Changes18">
+      <option name="closed" value="true" />
+      <created>1765748247010</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1765748247010</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Changes18">
+      <option name="closed" value="true" />
+      <created>1765748396185</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1765748396185</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Changes18">
+      <option name="closed" value="true" />
+      <created>1765748715420</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1765748715420</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Changes19">
+      <option name="closed" value="true" />
+      <created>1765748782145</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1765748782145</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Changes20">
+      <option name="closed" value="true" />
+      <created>1765748840621</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1765748840621</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Changes21">
+      <option name="closed" value="true" />
+      <created>1765748938812</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1765748938812</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Changes22">
+      <option name="closed" value="true" />
+      <created>1765749095808</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1765749095808</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Changes23">
+      <option name="closed" value="true" />
+      <created>1765749398397</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1765749398397</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Changes24">
+      <option name="closed" value="true" />
+      <created>1765749907959</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1765749907959</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Changes25">
+      <option name="closed" value="true" />
+      <created>1765750420708</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1765750420708</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Changes25">
+      <option name="closed" value="true" />
+      <created>1765750469145</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1765750469145</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Changes25">
+      <option name="closed" value="true" />
+      <created>1765750754906</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1765750754906</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Changes26">
+      <option name="closed" value="true" />
+      <created>1765751731240</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1765751731240</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Changes28">
+      <option name="closed" value="true" />
+      <created>1765753238276</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1765753238276</updated>
+    </task>
+    <task id="LOCAL-00035" summary="GeneralChange">
+      <option name="closed" value="true" />
+      <created>1765754353316</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1765754353316</updated>
+    </task>
+    <task id="LOCAL-00036" summary="GeneralChange1">
+      <option name="closed" value="true" />
+      <created>1765754811241</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1765754811241</updated>
+    </task>
+    <task id="LOCAL-00037" summary="GeneralChange1">
+      <option name="closed" value="true" />
+      <created>1765754937064</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1765754937064</updated>
+    </task>
+    <task id="LOCAL-00038" summary="GeneralChange2">
+      <option name="closed" value="true" />
+      <created>1765755131510</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1765755131510</updated>
+    </task>
+    <task id="LOCAL-00039" summary="GeneralChange3">
+      <option name="closed" value="true" />
+      <created>1765755332545</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1765755332545</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changes6" />
+    <MESSAGE value="Changes7" />
+    <MESSAGE value="Changes9" />
+    <MESSAGE value="Changes10" />
+    <MESSAGE value="Changes11" />
+    <MESSAGE value="Add Grafana VictoriaMetrics datasource via provisioning" />
+    <MESSAGE value="Changes12" />
+    <MESSAGE value="Changes14" />
+    <MESSAGE value="Changes15" />
+    <MESSAGE value="Changes16" />
+    <MESSAGE value="Changes17" />
+    <MESSAGE value="Changes18" />
+    <MESSAGE value="Changes19" />
+    <MESSAGE value="Changes20" />
+    <MESSAGE value="Changes21" />
+    <MESSAGE value="Changes22" />
+    <MESSAGE value="Changes23" />
+    <MESSAGE value="Changes24" />
+    <MESSAGE value="Changes25" />
+    <MESSAGE value="Changes26" />
+    <MESSAGE value="Changes28" />
+    <MESSAGE value="GeneralChange" />
+    <MESSAGE value="GeneralChange1" />
+    <MESSAGE value="GeneralChange2" />
+    <MESSAGE value="GeneralChange3" />
+    <option name="LAST_COMMIT_MESSAGE" value="GeneralChange3" />
+  </component>
+</project>
