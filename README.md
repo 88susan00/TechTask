@@ -119,7 +119,7 @@ TechTask/
     ├── get-argocd-password.sh              # Отримання пароля ArgoCD
     └── apply-apps.sh                       # Застосування ArgoCD Applications
 ```
-
+Додатково до діаграми було додано Інгрес-файли
 ## Компоненти системи
 
 ### ArgoCD
@@ -131,7 +131,7 @@ ArgoCD є GitOps контролером, який автоматично син�
 - Автоматичний sync: увімкнено
 - Self-heal: увімкнено
 - Prune: увімкнено
-- Джерело: GitHub репозиторій `88susan00/TechRepo`, гілка `main`
+- Джерело: GitHub репозиторій `88susan00/TechRepo`, гілка `master`
 
 ### VictoriaMetrics
 
@@ -428,7 +428,3 @@ kubectl logs -n monitoring -l app.kubernetes.io/name=victoria-metrics-single-ser
 ### Модифікація конфігурації
 
 Всі зміни конфігурації виконуються через Git. Після commit та push до репозиторію, ArgoCD автоматично синхронізує зміни в кластер.
-
-## Ліцензія
-
-Проект призначений для тестування та навчальних цілей.
