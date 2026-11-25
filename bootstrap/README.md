@@ -1,214 +1,432 @@
-# TechTask: One-Command Kubernetes Monitoring Stack with GitOps
+# TechTask
 
-A single command spins up a local Kubernetes cluster, installs Argo CD and lets Argo CD deploy a full monitoring stack (VictoriaMetrics + Grafana) together with a sample application that exposes Prometheus metrics. After that, Git is the only source of truth: every change pushed to this repository is synced to the cluster automatically.
+A project for deploying a Kubernetes-based monitoring infrastructure using a GitOps approach with ArgoCD.
 
-## What's inside
+## Overview
 
-| Component | Role | Deployed as |
-| --- | --- | --- |
-| **Minikube** | Local single-node Kubernetes cluster with the NGINX Ingress addon | `bootstrap/install.sh` |
-| **Argo CD** | GitOps controller: auto-sync, self-heal and prune | Upstream stable manifests |
-| **VictoriaMetrics** (single) | Prometheus-compatible metrics collection and storage | Helm chart `victoria-metrics-single` 0.11.0 |
-| **Grafana** | Dashboards, with datasource and dashboards provisioned as code | Helm chart `grafana` 7.3.0 |
-| **spam2000** | Sample app that generates Prometheus metrics on `/metrics` | Custom Helm chart |
+The project automates the deployment of a local Minikube-based Kubernetes cluster with the following components:
+- ArgoCD for GitOps application management
+- VictoriaMetrics for metrics collection and storage
+- Grafana for metrics visualization
+- Spam2000 as a test application that generates metrics
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    dev([git push]) --> repo[(GitHub repo<br/>88susan00/TechTask)]
-    repo -->|watches master| argo
-
-    subgraph cluster[Minikube cluster]
-        subgraph ns_argo[argocd]
-            argo[Argo CD]
-        end
-        subgraph ns_mon[monitoring]
-            vm[VictoriaMetrics]
-            graf[Grafana]
-        end
-        subgraph ns_app[spam2000]
-            app[spam2000<br/>/metrics]
-        end
-        ingress[NGINX Ingress]
-    end
-
-    argo -->|syncs Helm chart| ns_mon
-    argo -->|syncs Helm chart| ns_app
-    vm -->|scrapes every 10s| app
-    vm -->|scrapes| k8s[API server, nodes, cAdvisor]
-    graf -->|queries| vm
-    ingress --> graf
-    ingress --> vm
-    ingress --> app
-    ingress --> argo
+```
+┌────────────────────────────────────────────────────────┐
+│                    Minikube Cluster                    │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │           argocd namespace                       │  │
+│  │  ┌────────────────────────────────────────────┐  │  │
+│  │  │  ArgoCD Server                             │  │  │
+│  │  │  - Git synchronization                     │  │  │
+│  │  │  - Automated deployment                    │  │  │
+│  │  └────────────────────────────────────────────┘  │  │
+│  └──────────────────────────────────────────────────┘  │
+│                                                        │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │         monitoring namespace                     │  │
+│  │  ┌──────────────────┐  ┌──────────────────┐      │  │
+│  │  │ VictoriaMetrics  │  │     Grafana      │      │  │
+│  │  │ - Metrics scrape │  │ - Visualization  │      │  │
+│  │  │ - Storage        │  │ - Dashboards     │      │  │
+│  │  └──────────────────┘  └──────────────────┘      │  │
+│  └──────────────────────────────────────────────────┘  │
+│                                                        │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │          spam2000 namespace                      │  │
+│  │  ┌────────────────────────────────────────────┐  │  │
+│  │  │  Spam2000 Deployment                       │  │  │
+│  │  │  - Metrics generator                       │  │  │
+│  │  │  - Prometheus endpoint /metrics            │  │  │
+│  │  └────────────────────────────────────────────┘  │  │
+│  └──────────────────────────────────────────────────┘  │
+│                                                        │
+└────────────────────────────────────────────────────────┘
 ```
 
-**How it works:**
+## Dependencies
 
-1. `bootstrap/main.sh` starts Minikube, enables Ingress and installs Argo CD.
-2. It applies two Argo CD `Application` resources (`argocd/monitoring.yaml`, `argocd/spam2000.yaml`) that point to the Helm charts in `apps/`.
-3. Argo CD deploys both charts into their own namespaces and keeps them in sync with the `master` branch.
-4. VictoriaMetrics discovers targets through Kubernetes service discovery. Any Service annotated with `prometheus.io/scrape: "true"` is scraped automatically.
-5. Grafana picks up its datasource and dashboards from ConfigMaps through the sidecar, so no manual setup in the UI is needed.
+### System requirements
 
-## Quick start
+- Operating system: macOS, Linux or Windows with WSL2
+- Minimum resources:
+    - CPU: 4 cores
+    - RAM: 4 GB
+    - Disk: 20 GB of free space
 
-### Prerequisites
+### Required software
 
-| Tool | Version |
-| --- | --- |
-| Minikube | 1.30+ |
-| kubectl | 1.28+ |
-| Docker (Minikube driver) | Docker Desktop on macOS, Docker Engine on Linux |
-| Helm (optional, for local chart testing) | 3.12+ |
-| Bash | 4.0+ |
+1. **Minikube** version 1.30.0 or newer
+    - Installation: https://minikube.sigs.k8s.io/docs/start/
 
-Resources for the cluster: **4 CPU, 4 GB RAM, ~20 GB disk**. Works on macOS (Intel and Apple Silicon), Linux and Windows with WSL2.
+2. **kubectl** version 1.28.0 or newer
+    - Installation: https://kubernetes.io/docs/tasks/tools/
 
-### Deploy everything
+3. **Docker** or another driver supported by Minikube
+    - macOS: Docker Desktop
+    - Linux: Docker Engine
+    - Installation: https://docs.docker.com/get-docker/
+
+4. **Helm** version 3.12.0 or newer (optional, for local testing)
+    - Installation: https://helm.sh/docs/intro/install/
+
+5. **Bash** version 4.0 or newer
+
+### Checking dependencies
+
+Run the following commands to check that the required tools are installed:
 
 ```bash
-git clone https://github.com/88susan00/TechTask.git
-cd TechTask
-bash bootstrap/main.sh
+minikube version
+kubectl version --client
+docker --version
+helm version
+bash --version
 ```
 
-The script prints the Argo CD admin password at the end. Give Argo CD 2–3 minutes to sync both applications.
-
-### Step by step (optional)
-
-```bash
-bash bootstrap/install.sh             # start Minikube, enable Ingress, install Argo CD
-bash bootstrap/wait-for-argocd.sh     # wait until argocd-server is Available
-bash bootstrap/get-argocd-password.sh # print the initial admin password
-bash bootstrap/apply-apps.sh          # apply Argo CD Applications and the Argo CD Ingress
-```
-
-## Access the UIs
-
-### Option 1: port-forward (works everywhere)
-
-| UI | Command | URL | Credentials |
-| --- | --- | --- | --- |
-| Argo CD | `kubectl port-forward -n argocd svc/argocd-server 8080:443` | https://localhost:8080 | `admin` / output of `get-argocd-password.sh` |
-| Grafana | `kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80` | http://localhost:3000 | `admin` / `admin` |
-| VictoriaMetrics | `kubectl port-forward -n monitoring svc/monitoring-victoria-metrics-single-server 8428:8428` | http://localhost:8428/vmui | — |
-| spam2000 metrics | `kubectl port-forward -n spam2000 svc/spam2000 3001:3000` | http://localhost:3001/metrics | — |
-
-### Option 2: Ingress hostnames
-
-The charts create Ingress rules for `grafana.local`, `victoriametrics.local`, `spam2000.local` and `argocd.local`. Point them to the cluster:
-
-```bash
-# Linux
-echo "$(minikube ip) grafana.local victoriametrics.local spam2000.local argocd.local" | sudo tee -a /etc/hosts
-
-# macOS with the Docker driver: run the tunnel in a separate terminal and use 127.0.0.1
-minikube tunnel
-echo "127.0.0.1 grafana.local victoriametrics.local spam2000.local argocd.local" | sudo tee -a /etc/hosts
-```
-
-## Dashboards
-
-Two dashboards are provisioned automatically:
-
-- **Kubernetes Cluster Monitoring** — cluster CPU, memory, filesystem and network usage, broken down by pods, containers and system services
-- **spam2000 Metrics** — the application's gauges and counters over time, as a table and as a distribution
-
-To add a dashboard, put its JSON into `apps/monitoring/dashboards/`, add it to `templates/dashboards-configmap.yaml` and push. Argo CD and the Grafana sidecar do the rest.
-
-## Verify the deployment
-
-```bash
-kubectl get nodes                          # 1 node, Ready
-kubectl get applications -n argocd         # monitoring and spam2000: Synced / Healthy
-kubectl get pods -n monitoring             # VictoriaMetrics and Grafana: Running
-kubectl get pods -n spam2000               # spam2000: Running
-```
-
-Check that metrics are being collected:
-
-```bash
-kubectl port-forward -n monitoring svc/monitoring-victoria-metrics-single-server 8428:8428 &
-curl -s 'http://localhost:8428/api/v1/query?query=up{job="spam2000"}'
-# expected: a result with value "1"
-```
-
-## Repository structure
+## Project structure
 
 ```
 TechTask/
-├── bootstrap/                  # One-command setup
-│   ├── main.sh                 # Runs all steps in order
-│   ├── install.sh              # Minikube + Ingress addon + Argo CD
-│   ├── wait-for-argocd.sh      # Waits for argocd-server
-│   ├── get-argocd-password.sh  # Prints the initial admin password
-│   └── apply-apps.sh           # Applies everything in argocd/
-├── argocd/                     # Argo CD Applications (app-of-apps entry point)
-│   ├── monitoring.yaml
-│   ├── spam2000.yaml
-│   └── argocd-ingress.yaml
-└── apps/
-    ├── monitoring/             # Umbrella chart: VictoriaMetrics + Grafana
-    │   ├── Chart.yaml / Chart.lock / charts/
-    │   ├── values.yaml         # Scrape config, Grafana settings, Ingress
-    │   ├── dashboards/         # Grafana dashboards as JSON
-    │   └── templates/          # Datasource, dashboards ConfigMaps, VM Ingress
-    └── spam2000/               # Sample app chart: Deployment, Service, Ingress
+├── apps/
+│   ├── monitoring/
+│   │   ├── Chart.yaml                     # Helm chart metadata
+│   │   ├── values.yaml                    # VictoriaMetrics and Grafana configuration
+│   │   ├── Chart.lock                     # Locked dependency versions
+│   │   ├── charts/                        # Local copies of Helm charts
+│   │   ├── dashboards/                    # Grafana JSON dashboards
+│   │   │   ├── cluster.json
+│   │   │   └── spam2000.json
+│   │   └── templates/                     # Helm templates
+│   │       ├── dashboards-configmap.yaml
+│   │       └── datasources-configmap.yaml
+│   └── spam2000/
+│       ├── Chart.yaml                     # Helm chart metadata
+│       ├── values.yaml                    # Application configuration
+│       └── templates/
+│           ├── deployment.yaml
+│           └── service.yaml
+├── argocd/
+│   ├── monitoring.yaml                    # ArgoCD Application for monitoring
+│   └── spam2000.yaml                      # ArgoCD Application for spam2000
+└── bootstrap/
+    ├── main.sh                            # Main deployment script
+    ├── install.sh                         # Installs Minikube and ArgoCD
+    ├── wait-for-argocd.sh                 # Waits for ArgoCD to be ready
+    ├── get-argocd-password.sh             # Retrieves the ArgoCD password
+    └── apply-apps.sh                      # Applies ArgoCD Applications
 ```
 
-## Scrape configuration
+In addition to what is shown above, Ingress manifests were added for ArgoCD, Grafana, VictoriaMetrics and spam2000.
 
-VictoriaMetrics scrapes every **10 seconds** (set in `apps/monitoring/values.yaml` → `scrape.config.global.scrape_interval`). Jobs:
+## System components
 
-| Job | Targets |
-| --- | --- |
-| `vmagent` | VictoriaMetrics itself |
-| `kubernetes-apiservers` | Kubernetes API server |
-| `kubernetes-nodes`, `kubernetes-nodes-cadvisor` | Node and container metrics (cAdvisor) |
-| `kubernetes-service-endpoints` | Services annotated with `prometheus.io/scrape: "true"` |
-| `kubernetes-service-endpoints-slow` | Services annotated with `prometheus.io/scrape_slow: "true"` (every 5 min) |
-| `kubernetes-services` | Blackbox probes of Services |
-| `kubernetes-pods` | Pods with Prometheus annotations |
-| `spam2000`, `monitoring` | Dedicated jobs for these namespaces |
+### ArgoCD
 
-## Making changes (GitOps flow)
+ArgoCD is a GitOps controller that automatically keeps the cluster state in sync with the configuration in the Git repository. It is configured with automated sync, self-healing and automatic pruning of resources.
 
-1. Edit a chart or values file in `apps/`.
-2. Commit and push to `master`.
-3. Argo CD detects the change and syncs it. Manual changes in the cluster are reverted by self-heal, and removed resources are pruned.
+**Configuration:**
+- Namespace: `argocd`
+- Automated sync: enabled
+- Self-heal: enabled
+- Prune: enabled
+- Source: GitHub repository `88susan00/TechTask`, branch `master`
 
-## Troubleshooting
+### VictoriaMetrics
 
-| Symptom | Where to look |
-| --- | --- |
-| Minikube does not start | `minikube status`, `minikube logs` |
-| Application stuck in `OutOfSync` or `Degraded` | `kubectl describe application -n argocd <name>`, `kubectl logs -n argocd -l app.kubernetes.io/name=argocd-application-controller` |
-| No spam2000 metrics in Grafana | Check Service annotations: `kubectl get svc -n spam2000 spam2000 -o yaml`; check targets at http://localhost:8428/targets |
-| VictoriaMetrics errors | `kubectl logs -n monitoring -l app.kubernetes.io/name=victoria-metrics-single-server` |
-| `*.local` hostnames do not resolve | Check `/etc/hosts`; on macOS keep `minikube tunnel` running |
+VictoriaMetrics collects, stores and serves metrics in a Prometheus-compatible format.
 
-## Clean up
+**Configuration:**
+- Helm chart: `victoria-metrics-single` version 0.11.0
+- Service type: ClusterIP
+- Scrape interval: 10 seconds
+- Kubernetes Service Discovery: enabled for automatic discovery of services with Prometheus annotations
+
+**Scrape jobs:**
+- `vmagent` - internal VictoriaMetrics metrics
+- `kubernetes-apiservers` - Kubernetes API server metrics
+- `kubernetes-nodes` - cluster node metrics
+- `kubernetes-nodes-cadvisor` - container metrics via cAdvisor
+- `kubernetes-service-endpoints` - metrics of services annotated with `prometheus.io/scrape: "true"`
+- `kubernetes-service-endpoints-slow` - metrics scraped every 5 minutes
+- `kubernetes-services` - blackbox probes of services
+- `kubernetes-pods` - metrics of annotated pods
+- `spam2000` - dedicated job for the spam2000 namespace
+- `monitoring` - dedicated job for the monitoring namespace
+
+### Grafana
+
+Grafana provides a web interface for visualizing metrics from VictoriaMetrics.
+
+**Configuration:**
+- Helm chart: `grafana` version 7.3.0
+- Service type: ClusterIP
+- Admin credentials: `admin` / `admin`
+- Sidecar for automatic import of dashboards and datasources
+
+**Dashboards:**
+- `cluster.json` - cluster and node metrics
+- `spam2000.json` - spam2000 application metrics
+
+**Datasource:**
+- VictoriaMetrics at: `http://monitoring-victoria-metrics-single-server.monitoring.svc.cluster.local:8428`
+
+### Spam2000
+
+Spam2000 is a test application that generates metrics in the Prometheus format.
+
+**Configuration:**
+- Image: `andriiuni/spam2000:1.1394.355`
+- Replicas: 1
+- Service type: ClusterIP
+- Port: 3000
+- Metrics endpoint: `/metrics`
+- Prometheus annotations: configured for automatic discovery by VictoriaMetrics
+
+## Installation and launch
+
+### Automated deployment
+
+Run the main bootstrap script to deploy the whole infrastructure automatically:
+
+```bash
+cd bootstrap
+bash main.sh
+```
+
+The script performs the following steps:
+1. Starts the Minikube cluster
+2. Installs ArgoCD in the `argocd` namespace
+3. Waits for the ArgoCD server to be ready
+4. Prints the password for ArgoCD access
+5. Applies the ArgoCD Application resources for automated application deployment
+
+### Manual deployment
+
+If you need to run the steps separately:
+
+#### Step 1: Start Minikube and install ArgoCD
+
+```bash
+bash bootstrap/install.sh
+```
+
+#### Step 2: Wait for ArgoCD to be ready
+
+```bash
+bash bootstrap/wait-for-argocd.sh
+```
+
+#### Step 3: Get the ArgoCD password
+
+```bash
+bash bootstrap/get-argocd-password.sh
+```
+
+#### Step 4: Apply the ArgoCD Applications
+
+```bash
+bash bootstrap/apply-apps.sh
+```
+
+### Apple Silicon support
+
+The `install.sh` script automatically detects the system architecture and configures Minikube for Apple Silicon (arm64).
+
+## Verifying the deployment
+
+### Checking the cluster state
+
+Check the state of the cluster nodes:
+
+```bash
+kubectl get nodes
+```
+
+Expected result: one node in the `Ready` state.
+
+### Checking ArgoCD
+
+Check the state of the ArgoCD pods:
+
+```bash
+kubectl get pods -n argocd
+```
+
+All pods should be in the `Running` state.
+
+Check the ArgoCD Applications:
+
+```bash
+kubectl get applications -n argocd
+```
+
+Expected result: two Application resources (`monitoring` and `spam2000`) with the status `Synced` and `Healthy`.
+
+### Checking the monitoring stack
+
+Check the pods in the monitoring namespace:
+
+```bash
+kubectl get pods -n monitoring
+```
+
+Expected result:
+- VictoriaMetrics pods in the `Running` state
+- Grafana pods in the `Running` state
+
+Check the services:
+
+```bash
+kubectl get svc -n monitoring
+```
+
+### Checking Spam2000
+
+Check the spam2000 pod:
+
+```bash
+kubectl get pods -n spam2000
+```
+
+Check the service:
+
+```bash
+kubectl get svc -n spam2000
+```
+
+Check that metrics are available:
+
+```bash
+kubectl port-forward -n spam2000 svc/spam2000 3000:3000
+curl http://localhost:3000/metrics
+```
+
+### Accessing the web interfaces
+
+#### ArgoCD UI
+
+Set up port-forwarding:
+
+```bash
+kubectl port-forward -n argocd svc/argocd-server 8080:443
+```
+
+Open in your browser: `https://localhost:8080`
+
+Credentials:
+- Username: `admin`
+- Password: get it with `bash bootstrap/get-argocd-password.sh`
+
+#### Grafana UI
+
+Set up port-forwarding:
+
+```bash
+kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80
+```
+
+Open in your browser: `http://localhost:3000`
+
+Credentials:
+- Username: `admin`
+- Password: `admin`
+
+#### VictoriaMetrics UI
+
+Set up port-forwarding:
+
+```bash
+kubectl port-forward -n monitoring svc/monitoring-victoria-metrics-single-server 8428:8428
+```
+
+Open in your browser: `http://localhost:8428`
+
+### Checking metrics collection
+
+Check that spam2000 metrics are present in VictoriaMetrics:
+
+```bash
+kubectl port-forward -n monitoring svc/monitoring-victoria-metrics-single-server 8428:8428
+curl "http://localhost:8428/api/v1/query?query=up{job=\"spam2000\"}"
+```
+
+Expected result: a metric with the value `1` for the active endpoint.
+
+## Removal
+
+To remove the whole infrastructure:
 
 ```bash
 minikube delete
 ```
 
-Or remove only the workloads:
+Or to remove individual components:
 
 ```bash
-kubectl delete applications -n argocd --all
+kubectl delete application -n argocd --all
 kubectl delete namespace monitoring spam2000
 ```
 
-## Notes and possible improvements
+## Troubleshooting
 
-This is a local demo environment. For production I would:
+### Minikube issues
 
-- Move Grafana and Argo CD credentials out of `values.yaml` into a secrets manager (External Secrets, SOPS or Vault)
-- Enable TLS on Ingress with cert-manager
-- Add alerting rules (vmalert + Alertmanager) for target availability and resource saturation
-- Set resource requests and limits for spam2000 and add liveness and readiness probes
-- Pin Argo CD to a specific version instead of `stable`
-- Turn `argocd/` into a single app-of-apps `Application` so the bootstrap applies only one resource
+If Minikube does not start, check:
+
+```bash
+minikube status
+minikube logs
+```
+
+### ArgoCD sync issues
+
+Check the ArgoCD logs:
+
+```bash
+kubectl logs -n argocd -l app.kubernetes.io/name=argocd-application-controller
+```
+
+Check the Application state:
+
+```bash
+kubectl describe application -n argocd monitoring
+kubectl describe application -n argocd spam2000
+```
+
+### Metrics collection issues
+
+Check the VictoriaMetrics scrape configuration:
+
+```bash
+kubectl get configmap -n monitoring monitoring-victoria-metrics-single-server-scrape -o yaml
+```
+
+Check the spam2000 service annotations:
+
+```bash
+kubectl get svc -n spam2000 spam2000 -o yaml
+```
+
+Check the VictoriaMetrics logs:
+
+```bash
+kubectl logs -n monitoring -l app.kubernetes.io/name=victoria-metrics-single-server
+```
+
+## Additional information
+
+### Configuring scrape intervals
+
+Scrape intervals are configured in `apps/monitoring/values.yaml` under `victoria-metrics-single.server.scrape.config.global.scrape_interval`.
+
+### Adding new dashboards
+
+Add dashboard JSON files to the `apps/monitoring/dashboards/` directory. They will be imported automatically through the ConfigMap and the Grafana sidecar.
+
+### Changing the configuration
+
+All configuration changes are made through Git. After you commit and push to the repository, ArgoCD automatically syncs the changes to the cluster.
