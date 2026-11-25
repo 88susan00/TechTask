@@ -2,7 +2,7 @@
 set -e
 
 echo ">>> Waiting for ArgoCD CRDs"
-+kubectl wait --for=condition=Established \
+kubectl wait --for=condition=Established \
   crd/applications.argoproj.io crd/appprojects.argoproj.io --timeout=60s
 
 echo ">>> Waiting for ArgoCD components to be ready"
