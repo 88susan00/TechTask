@@ -18,5 +18,5 @@ minikube addons enable ingress
 
 echo ">>> Installing Argo CD"
 kubectl create namespace argocd || true
-kubectl apply -n argocd \
+kubectl apply -n argocd --server-side --force-conflicts \
   -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
